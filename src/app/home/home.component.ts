@@ -2,38 +2,62 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CityService } from '../services/city/city.service';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { WeatherService } from '../services/weather/weather.service';
+import { startWith, map } from 'rxjs/operators';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
 
+  searchControl = new FormControl();
+  // filteredCities!: Observable<string[]>;
   cities: any[] = [];
   filteredCities: any[] = [];
   searchCity: string = '';
-  selectedCity: any;
+  selectedCity: any; 
   weather: any[] = [];
 
   localisation: string = 'aze';
 
   constructor(private cityService: CityService, private weatherService: WeatherService) {
+    
+  }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    
+    const test = this.cities.filter(city => {
+      return city.label.toLowerCase().includes(filterValue)
+    }).slice(0, 10);
+    console.log(test);
+    return test
+    
   }
 
   ngOnInit(): void {
     this.loadCities();
+    this.searchControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        return this._filter(value)})
+    ).subscribe(filteredCities => {
+      this.filteredCities = filteredCities; // Mettre à jour le tableau lorsqu'il y a des changements
+    });
   }
 
   loadCities() {
     this.cityService.getCities().subscribe(
-      (data) => {
+      (data) => {       
         this.cities = data
-        this.filteredCities = this.cities.slice(0, 10)
       },
       (error) => {
         console.error('Erreur lors du chargement des villes :', error);
@@ -41,11 +65,11 @@ export class HomeComponent {
     );
   }
 
-  filterCities() {
-    this.filteredCities = this.cities.filter(city =>
-      city.label.toLowerCase().includes(this.searchCity.toLowerCase())
-    ).slice(0, 10);
-  }
+  // filterCities() {
+  //   this.filteredCities = this.cities.filter(city =>
+  //     city.label.toLowerCase().includes(this.searchCity.toLowerCase())
+  //   ).slice(0, 10);
+  // }
 
   searchWeather(localisation: string) {
     if (navigator.geolocation) {

@@ -1,21 +1,21 @@
 <div class="home-info">
     <h1>Meteorama</h1>
     <p>Renseignez votre ville</p>
-    <div>
-        <input type="text" [(ngModel)]="searchCity" (input)="filterCities()" placeholder="Ville, Département, Code postal...">
-
-        <select [(ngModel)]="selectedCity" (change)="onCitySelected()">
-          <option *ngFor="let city of filteredCities" [ngValue]="city">{{ city.label }}</option>
-        </select>
-
-
-
-        
-        <!-- <input type="text" [(ngModel)]="searchText" (input)="filterOptions()" placeholder="Ville, Département, Code postal..." #localisation> -->
-        <button type="submit" class="searchButton" (click)="searchWeather(localisation)">
+    <div class="search-container w-70">
+        <input class="cities-input" type="text" [formControl]="searchControl" placeholder="Rechercher une ville...">
+        <button class="cities-button" type="submit" (click)="searchWeather(localisation)">
             Me localiser
             <i class="fa-solid fa-location-crosshairs"></i>
-         </button>
+        </button>
+    </div>
+    <div class="w-70">
+        <div class="search-result">
+            <ul *ngIf="searchControl.value && filteredCities && filteredCities.length > 0" class="dropdown">
+                @for (city of filteredCities; track city.label) {
+                    <li>{{city.label}}</li>
+                }
+            </ul>
+        </div>
     </div>
 </div>
 

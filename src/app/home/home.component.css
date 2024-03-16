@@ -8,3 +8,50 @@
     background-size: cover;
     background-position: center;
 }
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.search-result {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+}
+
+.dropdown li {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+.dropdown li:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+}
+
+.cities-input {
+  width: 85%;
+}
+
+.cities-button {
+  width: 15%;
+}
