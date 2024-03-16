@@ -1,0 +1,26 @@
+<div class="home-info">
+    <h1>Meteorama</h1>
+    <p>Renseignez votre ville</p>
+    <div>
+        <input type="text" [(ngModel)]="searchCity" (input)="filterCities()" placeholder="Ville, Département, Code postal...">
+
+        <select [(ngModel)]="selectedCity" (change)="onCitySelected()">
+          <option *ngFor="let city of filteredCities" [ngValue]="city">{{ city.label }}</option>
+        </select>
+
+
+
+        
+        <!-- <input type="text" [(ngModel)]="searchText" (input)="filterOptions()" placeholder="Ville, Département, Code postal..." #localisation> -->
+        <button type="submit" class="searchButton" (click)="searchWeather(localisation)">
+            Me localiser
+            <i class="fa-solid fa-location-crosshairs"></i>
+         </button>
+    </div>
+</div>
+
+<div>
+    <ng-container>
+        {{weather}}
+    </ng-container>
+</div>

@@ -1,0 +1,10 @@
+.home-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 40vh;
+    background-image: url("../../assets/weather-background.jpg");
+    background-size: cover;
+    background-position: center;
+}
